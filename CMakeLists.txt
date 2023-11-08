@@ -200,19 +200,19 @@ if(ENABLE_WS)
   option(WITH_NSS "Use NSS instead of builtin sha1" OFF)
 
   if(WITH_TLS)
-    find_package("GnuTLS" 3.6.7)
-    if(GNUTLS_FOUND)
-      set(pkg_config_names_private "${pkg_config_names_private} gnutls")
-      list(APPEND sources ${CMAKE_CURRENT_SOURCE_DIR}/src/wss_address.hpp
-           ${CMAKE_CURRENT_SOURCE_DIR}/src/wss_address.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/wss_engine.hpp
-           ${CMAKE_CURRENT_SOURCE_DIR}/src/wss_engine.cpp)
-
-      message(STATUS "Enable WSS transport")
-      set(ZMQ_USE_GNUTLS 1)
-      set(ZMQ_HAVE_WSS 1)
-    else()
-      message(WARNING "No WSS support, you may want to install GnuTLS and run cmake again")
+    if(MSVC)
+      include_directories("${CMAKE_CURRENT_SOURCE_DIR}/libs/gnutls-3.8.1/${arch_name}/lib/includes")
+      link_directories("${CMAKE_CURRENT_SOURCE_DIR}/libs/gnutls-3.8.1/${arch_name}/lib")
     endif()
+
+    set(pkg_config_names_private "${pkg_config_names_private} gnutls")
+    list(APPEND sources ${CMAKE_CURRENT_SOURCE_DIR}/src/wss_address.hpp
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/wss_address.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/wss_engine.hpp
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/wss_engine.cpp)
+
+    message(STATUS "Enable WSS transport")
+    set(ZMQ_USE_GNUTLS 1)
+    set(ZMQ_HAVE_WSS 1)
   endif()
 endif()
 

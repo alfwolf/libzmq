@@ -3,7 +3,7 @@
 #ifndef __ZMQ_WSS_ENGINE_HPP_INCLUDED__
 #define __ZMQ_WSS_ENGINE_HPP_INCLUDED__
 
-#include <gnutls/gnutls.h>
+#include <gnutls.h>
 #include "ws_engine.hpp"
 
 #define WSS_BUFFER_SIZE 8192
